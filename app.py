@@ -1,16 +1,32 @@
 from flask import Flask, render_template, request, redirect
 from datetime import datetime
-from flask_pymongo import pymongo
+import pymongo
 from bson.objectid import ObjectId
+#from redis import Redis
 
 app = Flask(__name__)
+#redis = Redis(host='redis', port=6379)
 
 
-# connecting database (mongodb)
+################## connecting database (mongodb)
 
-CONNECTION_STRING = 'mongodb+srv://db:db123@cluster0.j523m.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
-client = pymongo.MongoClient(CONNECTION_STRING)
+client = pymongo.MongoClient(host='db_mongo',port=27017,username='root',password='pass',authSource='admin')
 db = client.get_database('user')
+
+##################  using mongo atlas
+
+#CONNECTION_STRING = 'mongodb+srv://db:db123@cluster0.j523m.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+#client = pymongo.MongoClient(CONNECTION_STRING)
+#db = client.get_database('user')
+
+##################   localhost
+
+#CONNECTION_STRING = 'mongodb://localhost:27017/''
+#client = pymongo.MongoClient(CONNECTION_STRING)
+#db = client.get_database('user')
+
+
+
 user_collection = pymongo.collection.Collection(db, 'user')
 
 group_collection = pymongo.collection.Collection(db, 'group')
@@ -136,5 +152,5 @@ def groupmember(_id):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0",port=8080)
+    app.run(debug=True, host="0.0.0.0",port=5001)
     
