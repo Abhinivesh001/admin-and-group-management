@@ -1,0 +1,23 @@
+version: '3.1'
+
+services:
+  app:
+    build: .
+    command: python -u app.py 
+    ports:
+      - 5001:5001
+    volumes:
+      - .:/app  
+    links:
+      - database  
+
+  database:
+    image: mongo:latest
+    hostname: db_mongo  
+    environment:
+      - MONGO_INITDB_DATABASE=user
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=pass
+    ports:
+      - 27017:27017  
+  
